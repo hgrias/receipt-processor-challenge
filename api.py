@@ -6,6 +6,11 @@ app = Flask(__name__)
 receipts = {}
 
 
+@app.route("/receipts/list", methods=["GET"])
+def get_receipts():
+    return jsonify(receipts)
+
+
 @app.route("/receipts/process", methods=["POST"])
 def process_receipts():
     if request.method == "POST":
