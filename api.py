@@ -35,7 +35,7 @@ def get_receipts():
 
 @app.route("/receipts/process", methods=["POST"])
 @expects_json(schema)
-def process_receipts():
+def process_receipt():
     if request.method == "POST":
         data = request.get_json()
         receipt_id = str(uuid.uuid4())
