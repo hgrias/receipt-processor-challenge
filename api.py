@@ -3,6 +3,7 @@ from flask_expects_json import expects_json
 from datetime import datetime
 from math import ceil
 import uuid
+import os
 
 app = Flask(__name__)
 
@@ -106,3 +107,8 @@ def calculate_points(receipt_json):
         points_total += 10
 
     return points_total
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=False, host="0.0.0.0", port=port)
