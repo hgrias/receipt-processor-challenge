@@ -41,13 +41,13 @@ def process_receipts():
         receipt_id = str(uuid.uuid4())
         data["points"] = calculate_points(data)
         receipts[receipt_id] = data
-        return jsonify({"id": receipt_id})
+        return {"id": receipt_id}, 200
 
 
 @app.route("/receipts/<receipt_id>/points", methods=["GET"])
 def get_receipt_points(receipt_id):
     try:
-        return {"points": receipts[receipt_id]["points"]}
+        return {"points": receipts[receipt_id]["points"]}, 200
     except KeyError as e:
         return {
             "ERROR": "Key Error",
