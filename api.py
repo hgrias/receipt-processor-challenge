@@ -44,7 +44,13 @@ def process_receipt():
     if request.method == "POST":
         data = request.get_json()
         receipt_id = str(uuid.uuid4())
-        data["points"] = calculate_points(data)
+        try:
+            data["points"] = calculate_points(data)
+        except ValueError as e:
+            return {
+                "ERROR": "Value Error",
+                "MESSAGE": str(e),
+            }, 400
         receipts[receipt_id] = data
         return {"id": receipt_id}, 200
 
@@ -88,7 +94,8 @@ def calculate_points(receipt_json):
             points_total += ceil(float(item["price"]) * 0.2)
 
     # 6 points if the day in the purchase date is odd
-    if int(receipt_json["purchaseDate"].split("-")[2]) % 2 != 0:
+    purchase_date = datetime.strptime(receipt_json["purchaseDate"], "%Y-%m-%d")
+    if int(purchase_date.day) % 2 != 0:
         points_total += 6
 
     # 10 points if the time of purchase is after 2:00pm and before 4:00pm
