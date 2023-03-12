@@ -18,8 +18,12 @@ schema = {
             "type": "array",
             "minItems": 1,
             "items": {
-                "shortDescription": {"type": "string"},
-                "price": {"type": "string"},
+                "type": "object",
+                "properties": {
+                    "shortDescription": {"type": "string"},
+                    "price": {"type": "string"},
+                },
+                "required": ["shortDescription", "price"],
             },
         },
     },
