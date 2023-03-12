@@ -1,9 +1,29 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Flask, request, jsonify
+from flask_expects_json import expects_json
 from datetime import datetime
 from math import ceil
 import uuid
 
 app = Flask(__name__)
+
+
+schema = {
+    "type": "object",
+    "properties": {
+        "retailer": {"type": "string"},
+        "purchaseDate": {"type": "string"},
+        "purchaseTime": {"type": "string"},
+        "total": {"type": "string"},
+        "items": {
+            "type": "array",
+            "items": {
+                "shortDescription": {"type": "string"},
+                "price": {"type": "string"},
+            },
+        },
+    },
+    "required": ["retailer", "purchaseDate", "purchaseTime", "total", "items"],
+}
 
 receipts = {}
 
@@ -14,6 +34,7 @@ def get_receipts():
 
 
 @app.route("/receipts/process", methods=["POST"])
+@expects_json(schema)
 def process_receipts():
     if request.method == "POST":
         data = request.get_json()
@@ -24,9 +45,6 @@ def process_receipts():
 
 @app.route("/receipts/<receipt_id>/points", methods=["GET"])
 def calculate_points(receipt_id):
-    # Validate JSON
-    validate_receipt(receipt_id)
-
     # Get the receipt data
     data = receipts[receipt_id]
 
@@ -68,7 +86,3 @@ def calculate_points(receipt_id):
         points_total += 10
 
     return jsonify({"points": points_total})
-
-
-def validate_receipt(receipt):
-    pass
