@@ -16,6 +16,7 @@ schema = {
         "total": {"type": "string"},
         "items": {
             "type": "array",
+            "minItems": 1,
             "items": {
                 "shortDescription": {"type": "string"},
                 "price": {"type": "string"},
