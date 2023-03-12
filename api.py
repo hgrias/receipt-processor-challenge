@@ -45,8 +45,14 @@ def process_receipts():
 
 
 @app.route("/receipts/<receipt_id>/points", methods=["GET"])
-def calculate_points(receipt_id):
-    return jsonify({"points": receipts[receipt_id]["points"]})
+def get_receipt_points(receipt_id):
+    try:
+        return {"points": receipts[receipt_id]["points"]}
+    except KeyError as e:
+        return {
+            "ERROR": "Key Error",
+            "MESSAGE": f"Receipt ID {e.args[0]} does not exist.",
+        }, 400
 
 
 def calculate_points(receipt_json):
