@@ -62,9 +62,9 @@ def get_receipt_points(receipt_id):
         return {"points": receipts[receipt_id]["points"]}, 200
     except KeyError as e:
         return {
-            "ERROR": "Key Error",
+            "ERROR": "Receipt Not Found",
             "MESSAGE": f"Receipt ID {e.args[0]} does not exist.",
-        }, 400
+        }, 404
 
 
 def calculate_points(receipt_json):
