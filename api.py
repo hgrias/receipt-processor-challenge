@@ -103,7 +103,7 @@ def calculate_points(receipt_json):
     start_time = datetime.strptime("14:00", "%H:%M")
     end_time = datetime.strptime("16:00", "%H:%M")
     purchase_time = datetime.strptime(receipt_json["purchaseTime"], "%H:%M")
-    if start_time <= purchase_time < end_time:
+    if start_time < purchase_time < end_time:
         points_total += 10
 
     return points_total
