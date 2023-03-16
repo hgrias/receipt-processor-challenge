@@ -49,7 +49,7 @@ def process_receipt():
             data["points"] = calculate_points(data)
         except ValueError as e:
             return {
-                "ERROR": "Value Error",
+                "ERROR": "Invalid Receipt",
                 "MESSAGE": str(e),
             }, 400
         receipts[receipt_id] = data
