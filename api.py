@@ -11,18 +11,21 @@ app = Flask(__name__)
 schema = {
     "type": "object",
     "properties": {
-        "retailer": {"type": "string"},
+        "retailer": {"type": "string", "pattern": r"^\\S+$"},
         "purchaseDate": {"type": "string"},
         "purchaseTime": {"type": "string"},
-        "total": {"type": "string"},
+        "total": {"type": "string", "pattern": r"^\\d+\\.\\d{2}$"},
         "items": {
             "type": "array",
             "minItems": 1,
             "items": {
                 "type": "object",
                 "properties": {
-                    "shortDescription": {"type": "string"},
-                    "price": {"type": "string"},
+                    "shortDescription": {
+                        "type": "string",
+                        "pattern": r"^[\\w\\s\\-]+$",
+                    },
+                    "price": {"type": "string", "pattern": r"^\\d+\\.\\d{2}$"},
                 },
                 "required": ["shortDescription", "price"],
             },
